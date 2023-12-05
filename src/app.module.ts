@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt/jwt.strategy'
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt/JwtAuthGuard'
+import { RolesGuard } from './permissionGuard/permission.guard'
 
 @Module({
   imports: [
@@ -21,9 +22,13 @@ import { JwtAuthGuard } from './jwt/JwtAuthGuard'
     AppService,
     UserServices,
     JwtStrategy,
-    { // 全局使用身份验证
+    // { // 全局使用身份验证(JWT)
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard
+    // },
+    { // 全局使用接口权限认证
       provide: APP_GUARD,
-      useClass: JwtAuthGuard
+      useClass: RolesGuard
     }
   ],
 })
